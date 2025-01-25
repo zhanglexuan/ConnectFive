@@ -3,6 +3,8 @@ import pygame
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 
+player = 1
+
 #二维列表
 map = [0] * 15
 for i in range(15):
@@ -10,6 +12,7 @@ for i in range(15):
 
 pygame.init()
 SCREEN = pygame.display.set_mode((750, 750))
+pygame.display.set_caption("五子棋")
 
 run = True
 while run:
@@ -20,7 +23,14 @@ while run:
             x, y = pygame.mouse.get_pos()
             row = round((y - 25)/50)
             col = round((x - 25)/50)
-            map[row][col] = 1
+            if map[row][col] == 0:
+                map[row][col] = player
+                if player == 1:
+                    player = 2
+                else:
+                    player = 1
+            else:
+                print("已有棋子")
 
     SCREEN.fill("#EE9A49")
 
@@ -46,6 +56,8 @@ while run:
         for col in range(15):
             if map[row][col] == 1:
                 pygame.draw.circle(SCREEN, BLACK, (col*50+25, row*50+25), 25)
+            elif map[row][col] == 2:
+                pygame.draw.circle(SCREEN, WHITE, (col*50+25, row*50+25), 25)
 
     pygame.display.update()
 
